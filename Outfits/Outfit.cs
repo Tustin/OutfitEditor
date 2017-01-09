@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using PS3Lib;
+using XDevkit;
+using JRPC_Client;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -123,7 +125,11 @@ namespace Outfits
 
         private static uint pointer127 = 0x02223918;
         private static uint pointer126 = 0x02223518;
+        private static uint pointerTU27 = 0x83B2FB38;
         private static PS3API PS3;
+        private static IXboxConsole X360;
+        private static bool IsX360Version = false;
+
         private static OutfitStruct currentOutfit = new OutfitStruct();
         public static OutfitStruct outfitToImport { get; set; }
 
@@ -138,6 +144,14 @@ namespace Outfits
             return (Address != 0);
 
         }
+
+        public static bool InitX360(IXboxConsole x360)
+        {
+            X360 = x360;
+            IsX360Version = true;
+            Address = x360.ReadUInt32(pointerTU27);
+            return (Address != 0);
+        }
         public static OutfitStruct Fetch(int outfitIndex) {
             OutfitStruct tempOutfit = new OutfitStruct();
             uint outfit_struct = (Address - pointerToOutfitStruct) + ((uint)outfitIndex * outfitStructLen) + 4;
@@ -145,37 +159,37 @@ namespace Outfits
             uint accessory_textures = (Address - pointerToAccessoriesTextures) + ((uint)outfitIndex * accessoriesStructLen);
             uint outfit_textures = (Address - pointerToOutfitTextures) + ((uint)outfitIndex * outfitStructLen);
             tempOutfit.outfitName = GetOutfitName(outfitIndex);
-            tempOutfit.mask = PS3.Extension.ReadInt32(outfit_struct);
+            tempOutfit.mask = ReadInt32(outfit_struct);
             //i think 0x04 is hair but i didnt test it
-            tempOutfit.torso = PS3.Extension.ReadInt32(outfit_struct + 0x08);
-            tempOutfit.pants = PS3.Extension.ReadInt32(outfit_struct + 0x0C);
-            tempOutfit.parachute = PS3.Extension.ReadInt32(outfit_struct + 0x10);
-            tempOutfit.shoes = PS3.Extension.ReadInt32(outfit_struct + 0x14);
-            tempOutfit.misc1 = PS3.Extension.ReadInt32(outfit_struct + 0x18);
-            tempOutfit.tops1 = PS3.Extension.ReadInt32(outfit_struct + 0x1C);
-            tempOutfit.armour = PS3.Extension.ReadInt32(outfit_struct + 0x20);
-            tempOutfit.crew = PS3.Extension.ReadInt32(outfit_struct + 0x24);
-            tempOutfit.tops2 = PS3.Extension.ReadInt32(outfit_struct + 0x28);
+            tempOutfit.torso = ReadInt32(outfit_struct + 0x08);
+            tempOutfit.pants = ReadInt32(outfit_struct + 0x0C);
+            tempOutfit.parachute = ReadInt32(outfit_struct + 0x10);
+            tempOutfit.shoes = ReadInt32(outfit_struct + 0x14);
+            tempOutfit.misc1 = ReadInt32(outfit_struct + 0x18);
+            tempOutfit.tops1 = ReadInt32(outfit_struct + 0x1C);
+            tempOutfit.armour = ReadInt32(outfit_struct + 0x20);
+            tempOutfit.crew = ReadInt32(outfit_struct + 0x24);
+            tempOutfit.tops2 = ReadInt32(outfit_struct + 0x28);
 
-            tempOutfit.maskTexture = PS3.Extension.ReadInt32(outfit_textures);
+            tempOutfit.maskTexture = ReadInt32(outfit_textures);
             //i think 0x04 is hair but i didnt test it
-            tempOutfit.torsoTexture = PS3.Extension.ReadInt32(outfit_textures + 0x08);
-            tempOutfit.pantsTexture = PS3.Extension.ReadInt32(outfit_textures + 0x0C);
-            tempOutfit.parachuteTexture = PS3.Extension.ReadInt32(outfit_textures + 0x10);
-            tempOutfit.shoesTexture = PS3.Extension.ReadInt32(outfit_textures + 0x14);
-            tempOutfit.misc1Texture = PS3.Extension.ReadInt32(outfit_textures + 0x18);
-            tempOutfit.tops1Texture = PS3.Extension.ReadInt32(outfit_textures + 0x1C);
-            tempOutfit.armourTexture = PS3.Extension.ReadInt32(outfit_textures + 0x20);
-            tempOutfit.crewTexture = PS3.Extension.ReadInt32(outfit_textures + 0x24);
-            tempOutfit.tops2Texture = PS3.Extension.ReadInt32(outfit_textures + 0x28);
+            tempOutfit.torsoTexture = ReadInt32(outfit_textures + 0x08);
+            tempOutfit.pantsTexture = ReadInt32(outfit_textures + 0x0C);
+            tempOutfit.parachuteTexture = ReadInt32(outfit_textures + 0x10);
+            tempOutfit.shoesTexture = ReadInt32(outfit_textures + 0x14);
+            tempOutfit.misc1Texture = ReadInt32(outfit_textures + 0x18);
+            tempOutfit.tops1Texture = ReadInt32(outfit_textures + 0x1C);
+            tempOutfit.armourTexture = ReadInt32(outfit_textures + 0x20);
+            tempOutfit.crewTexture = ReadInt32(outfit_textures + 0x24);
+            tempOutfit.tops2Texture = ReadInt32(outfit_textures + 0x28);
 
-            tempOutfit.hat = PS3.Extension.ReadInt32(accessory_struct);
-            tempOutfit.glasses = PS3.Extension.ReadInt32(accessory_struct + 0x04);
-            tempOutfit.earpiece = PS3.Extension.ReadInt32(accessory_struct + 0x08);
+            tempOutfit.hat = ReadInt32(accessory_struct);
+            tempOutfit.glasses = ReadInt32(accessory_struct + 0x04);
+            tempOutfit.earpiece = ReadInt32(accessory_struct + 0x08);
 
-            tempOutfit.hatTexture = PS3.Extension.ReadInt32(accessory_textures);
-            tempOutfit.glassesTexture = PS3.Extension.ReadInt32(accessory_textures + 0x04);
-            tempOutfit.earpieceTexture = PS3.Extension.ReadInt32(accessory_textures + 0x08);
+            tempOutfit.hatTexture = ReadInt32(accessory_textures);
+            tempOutfit.glassesTexture = ReadInt32(accessory_textures + 0x04);
+            tempOutfit.earpieceTexture = ReadInt32(accessory_textures + 0x08);
 
             return tempOutfit;
         }
@@ -185,42 +199,42 @@ namespace Outfits
             uint accessory_textures = (Address - pointerToAccessoriesTextures) + ((uint)outfitIndex * accessoriesStructLen);
             uint outfit_textures = (Address - pointerToOutfitTextures) + ((uint)outfitIndex * outfitStructLen);
             uint name = (Address + pointerToNames) + ((uint)outfitIndex * outfitNameLen);
-            //if (PS3.Extension.ReadByte(name) == 00)
+            //if (ReadByte(name) == 00)
             // return false;
             if (outfitName.Length >= (int)Outfit.outfitNameLen)
                 outfitName = outfitName.Substring(0, (int)Outfit.outfitNameLen - 1);
-            if (!string.Equals(PS3.Extension.ReadString(name), outfitName)) {
-                PS3.Extension.WriteString(name, outfitName);
+            if (!string.Equals(ReadString(name), outfitName)) {
+                WriteString(name, outfitName);
             }
-            PS3.Extension.WriteInt32(outfit_struct, o.mask);
-            PS3.Extension.WriteInt32(outfit_struct + 0x08, o.torso);
-            PS3.Extension.WriteInt32(outfit_struct + 0x0C, o.pants);
-            PS3.Extension.WriteInt32(outfit_struct + 0x10, o.parachute);
-            PS3.Extension.WriteInt32(outfit_struct + 0x14, o.shoes);
-            PS3.Extension.WriteInt32(outfit_struct + 0x18, o.misc1);
-            PS3.Extension.WriteInt32(outfit_struct + 0x1C, o.tops1);
-            PS3.Extension.WriteInt32(outfit_struct + 0x20, o.armour);
-            PS3.Extension.WriteInt32(outfit_struct + 0x24, o.crew);
-            PS3.Extension.WriteInt32(outfit_struct + 0x28, o.tops2);
+            WriteInt32(outfit_struct, o.mask);
+            WriteInt32(outfit_struct + 0x08, o.torso);
+            WriteInt32(outfit_struct + 0x0C, o.pants);
+            WriteInt32(outfit_struct + 0x10, o.parachute);
+            WriteInt32(outfit_struct + 0x14, o.shoes);
+            WriteInt32(outfit_struct + 0x18, o.misc1);
+            WriteInt32(outfit_struct + 0x1C, o.tops1);
+            WriteInt32(outfit_struct + 0x20, o.armour);
+            WriteInt32(outfit_struct + 0x24, o.crew);
+            WriteInt32(outfit_struct + 0x28, o.tops2);
 
-            PS3.Extension.WriteInt32(outfit_textures, o.maskTexture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x08, o.torsoTexture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x0C, o.pantsTexture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x10, o.parachuteTexture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x14, o.shoesTexture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x18, o.misc1Texture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x1C, o.tops1Texture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x20, o.armourTexture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x24, o.crewTexture);
-            PS3.Extension.WriteInt32(outfit_textures + 0x28, o.tops2Texture);
+            WriteInt32(outfit_textures, o.maskTexture);
+            WriteInt32(outfit_textures + 0x08, o.torsoTexture);
+            WriteInt32(outfit_textures + 0x0C, o.pantsTexture);
+            WriteInt32(outfit_textures + 0x10, o.parachuteTexture);
+            WriteInt32(outfit_textures + 0x14, o.shoesTexture);
+            WriteInt32(outfit_textures + 0x18, o.misc1Texture);
+            WriteInt32(outfit_textures + 0x1C, o.tops1Texture);
+            WriteInt32(outfit_textures + 0x20, o.armourTexture);
+            WriteInt32(outfit_textures + 0x24, o.crewTexture);
+            WriteInt32(outfit_textures + 0x28, o.tops2Texture);
 
-            PS3.Extension.WriteInt32(accessory_struct, o.hat);
-            PS3.Extension.WriteInt32(accessory_struct + 0x04, o.glasses);
-            PS3.Extension.WriteInt32(accessory_struct + 0x08, o.earpiece);
+            WriteInt32(accessory_struct, o.hat);
+            WriteInt32(accessory_struct + 0x04, o.glasses);
+            WriteInt32(accessory_struct + 0x08, o.earpiece);
 
-            PS3.Extension.WriteInt32(accessory_textures, o.hatTexture);
-            PS3.Extension.WriteInt32(accessory_textures + 0x04, o.glassesTexture);
-            PS3.Extension.WriteInt32(accessory_textures + 0x08, o.earpieceTexture);
+            WriteInt32(accessory_textures, o.hatTexture);
+            WriteInt32(accessory_textures + 0x04, o.glassesTexture);
+            WriteInt32(accessory_textures + 0x08, o.earpieceTexture);
 
             return true;
         }
@@ -228,9 +242,9 @@ namespace Outfits
             List<string> output = new List<string>(10);
             for (int i = 0; i < 10; i++) {
                 uint a = (Address + pointerToNames) + ((uint)i * outfitNameLen);
-                if (PS3.Extension.ReadByte(a) == 00)
+                if (ReadByte(a) == 00)
                     break;
-                output.Add(PS3.Extension.ReadString(a));
+                output.Add(ReadString(a));
             }
             return output;
         }
@@ -240,9 +254,9 @@ namespace Outfits
 
         private static string GetOutfitName(int index) {
             uint a = (Address + pointerToNames) + ((uint)index * outfitNameLen);
-            if (PS3.Extension.ReadByte(a) == 00)
+            if (ReadByte(a) == 00)
                 return null;
-            return PS3.Extension.ReadString(a);
+            return ReadString(a);
         }
 
         public static List<OutfitStruct> FetchAllOutfits() {
@@ -277,6 +291,47 @@ namespace Outfits
                 s.Close();
             }
         }
-
+        private static byte ReadByte(UInt32 address)
+        {
+            if (IsX360Version)
+                return X360.ReadByte(address);
+            else
+                return PS3.Extension.ReadByte(address);
+        }
+        private static Int32 ReadInt32(UInt32 address)
+        {
+            if(IsX360Version)
+                return X360.ReadInt32(address);
+            else
+                return ReadInt32(address);
+        }
+        private static UInt32 ReadUInt32(UInt32 address)
+        {
+            if (IsX360Version)
+                return X360.ReadUInt32(address);
+            else
+                return ReadUInt32(address);
+        }
+        private static string ReadString(UInt32 address)
+        {
+            if (IsX360Version)
+                return X360.ReadString(address, 32);
+            else
+                return ReadString(address);
+        }
+        private static void WriteInt32(UInt32 address, Int32 value)
+        {
+            if (IsX360Version)
+                 X360.WriteInt32(address, value);
+            else
+                WriteInt32(address, value);
+        }
+        private static void WriteString(UInt32 address, string value)
+        {
+            if (IsX360Version)
+                X360.WriteString(address, value);
+            else
+                WriteString(address, value);
+        }
     }
 }

@@ -74,12 +74,14 @@
             this.label21 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connectToPS3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pS3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tMAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cCAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gTAVersionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem126 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem127 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tU27X360ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hat = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
             this.glasses = new System.Windows.Forms.NumericUpDown();
@@ -96,6 +98,8 @@
             this.btnImportOutfit = new System.Windows.Forms.Button();
             this.lblRefreshOutfits = new System.Windows.Forms.Label();
             this.panelFormControls = new System.Windows.Forms.Panel();
+            this.xBOXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jRPCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.torso)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pants)).BeginInit();
@@ -649,23 +653,32 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connectToPS3ToolStripMenuItem,
-            this.cCAPIToolStripMenuItem});
+            this.pS3ToolStripMenuItem,
+            this.xBOXToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
-            this.fileToolStripMenuItem.Text = "Connect to PS3";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.fileToolStripMenuItem.Text = "Connect";
             // 
-            // connectToPS3ToolStripMenuItem
+            // pS3ToolStripMenuItem
             // 
-            this.connectToPS3ToolStripMenuItem.Name = "connectToPS3ToolStripMenuItem";
-            this.connectToPS3ToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-            this.connectToPS3ToolStripMenuItem.Text = "TMAPI";
-            this.connectToPS3ToolStripMenuItem.Click += new System.EventHandler(this.connectToPS3ToolStripMenuItem_Click);
+            this.pS3ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tMAPIToolStripMenuItem,
+            this.cCAPIToolStripMenuItem});
+            this.pS3ToolStripMenuItem.Name = "pS3ToolStripMenuItem";
+            this.pS3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pS3ToolStripMenuItem.Text = "PS3";
+            // 
+            // tMAPIToolStripMenuItem
+            // 
+            this.tMAPIToolStripMenuItem.Name = "tMAPIToolStripMenuItem";
+            this.tMAPIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tMAPIToolStripMenuItem.Text = "TMAPI";
+            this.tMAPIToolStripMenuItem.Click += new System.EventHandler(this.tMAPIToolStripMenuItem_Click);
             // 
             // cCAPIToolStripMenuItem
             // 
             this.cCAPIToolStripMenuItem.Name = "cCAPIToolStripMenuItem";
-            this.cCAPIToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.cCAPIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cCAPIToolStripMenuItem.Text = "CCAPI";
             this.cCAPIToolStripMenuItem.Click += new System.EventHandler(this.cCAPIToolStripMenuItem_Click);
             // 
@@ -681,7 +694,8 @@
             // 
             this.gTAVersionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem126,
-            this.toolStripMenuItem127});
+            this.toolStripMenuItem127,
+            this.tU27X360ToolStripMenuItem});
             this.gTAVersionToolStripMenuItem.Name = "gTAVersionToolStripMenuItem";
             this.gTAVersionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gTAVersionToolStripMenuItem.Text = "GTA Version";
@@ -690,7 +704,7 @@
             // 
             this.toolStripMenuItem126.Name = "toolStripMenuItem126";
             this.toolStripMenuItem126.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem126.Text = "1.26";
+            this.toolStripMenuItem126.Text = "1.26 PS3";
             this.toolStripMenuItem126.Click += new System.EventHandler(this.toolStripMenuItem126_Click);
             // 
             // toolStripMenuItem127
@@ -699,8 +713,15 @@
             this.toolStripMenuItem127.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenuItem127.Name = "toolStripMenuItem127";
             this.toolStripMenuItem127.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem127.Text = "1.27";
+            this.toolStripMenuItem127.Text = "1.27 PS3";
             this.toolStripMenuItem127.Click += new System.EventHandler(this.toolStripMenuItem127_Click);
+            // 
+            // tU27X360ToolStripMenuItem
+            // 
+            this.tU27X360ToolStripMenuItem.Name = "tU27X360ToolStripMenuItem";
+            this.tU27X360ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tU27X360ToolStripMenuItem.Text = "TU27 X360";
+            this.tU27X360ToolStripMenuItem.Click += new System.EventHandler(this.tU27X360ToolStripMenuItem_Click);
             // 
             // hat
             // 
@@ -951,6 +972,21 @@
             this.panelFormControls.Size = new System.Drawing.Size(424, 199);
             this.panelFormControls.TabIndex = 15;
             // 
+            // xBOXToolStripMenuItem
+            // 
+            this.xBOXToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.jRPCToolStripMenuItem});
+            this.xBOXToolStripMenuItem.Name = "xBOXToolStripMenuItem";
+            this.xBOXToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.xBOXToolStripMenuItem.Text = "XBOX";
+            // 
+            // jRPCToolStripMenuItem
+            // 
+            this.jRPCToolStripMenuItem.Name = "jRPCToolStripMenuItem";
+            this.jRPCToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.jRPCToolStripMenuItem.Text = "JRPC";
+            this.jRPCToolStripMenuItem.Click += new System.EventHandler(this.jRPCToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1053,8 +1089,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem connectToPS3ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cCAPIToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown hat;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.NumericUpDown glasses;
@@ -1075,6 +1109,12 @@
         private System.Windows.Forms.Button btnImportOutfit;
         private System.Windows.Forms.Label lblRefreshOutfits;
         private System.Windows.Forms.Panel panelFormControls;
+        private System.Windows.Forms.ToolStripMenuItem tU27X360ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pS3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tMAPIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cCAPIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem xBOXToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jRPCToolStripMenuItem;
     }
 }
 

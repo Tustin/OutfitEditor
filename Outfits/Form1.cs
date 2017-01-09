@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PS3Lib;
+using XDevkit;
+using JRPC_Client;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net;
@@ -15,6 +17,7 @@ namespace Outfits
     public partial class Form1 : Form
     {
         public PS3API PS3;
+        public IXboxConsole X360;
 
         public Form1() {
             InitializeComponent();
@@ -61,6 +64,42 @@ namespace Outfits
             else {
                 Outfit.customOutfits = new List<OutfitStruct>();
             }
+        }
+        private void ConnectX360()
+        {
+            try
+            {
+                X360.Connect(out X360);
+                if (Outfit.InitX360(X360))
+                {
+                    FlipControls(true);
+                    int items = LoadOutfits();
+                    if (items == 0)
+                    {
+                        MessageBox.Show($"Unable to find any outfits. Please make an outfit in game, then hit the refresh button!", "Oh No!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        label1.Text = $"{items} outfits";
+                        MessageBox.Show($"Successfully loaded {items} outfits!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        listBox1.SelectedIndex = 0;
+                        gTAVersionToolStripMenuItem.Enabled = false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unable to find outfit structure address. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch
+            {
+                DialogResult callback = MessageBox.Show("Failed to connect to Xbox360. Please try again.", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if (callback == DialogResult.Retry)
+                {
+                    ConnectX360();
+                }
+            }
+
         }
         private void ConnectAttach(SelectAPI API) {
             PS3 = new PS3API(API);
@@ -187,24 +226,26 @@ namespace Outfits
             }
         }
 
-        private void connectToPS3ToolStripMenuItem_Click(object sender, EventArgs e) {
-            ConnectAttach(SelectAPI.TargetManager);
-        }
-
-        private void cCAPIToolStripMenuItem_Click(object sender, EventArgs e) {
-            ConnectAttach(SelectAPI.ControlConsole);
-        }
-
         private void toolStripMenuItem127_Click(object sender, EventArgs e) {
+            jRPCToolStripMenuItem.Visible = false;
+            tMAPIToolStripMenuItem.Visible = true;
+            cCAPIToolStripMenuItem.Visible = true;
+            fileToolStripMenuItem.Text = "Connect to PS3";
             toolStripMenuItem126.Checked = false;
             toolStripMenuItem127.Checked = true;
+            tU27X360ToolStripMenuItem.Checked = false;
             Properties.Settings.Default.gtaVersion = "127";
             Properties.Settings.Default.Save();
         }
 
         private void toolStripMenuItem126_Click(object sender, EventArgs e) {
+            jRPCToolStripMenuItem.Visible = false;
+            tMAPIToolStripMenuItem.Visible = true;
+            cCAPIToolStripMenuItem.Visible = true;
+            fileToolStripMenuItem.Text = "Connect to PS3";
             toolStripMenuItem126.Checked = true;
             toolStripMenuItem127.Checked = false;
+            tU27X360ToolStripMenuItem.Checked = false;
             Properties.Settings.Default.gtaVersion = "126";
             Properties.Settings.Default.Save();
         }
@@ -282,6 +323,30 @@ namespace Outfits
             else {
                 MessageBox.Show($"Failed setting {Outfit.outfitToImport.outfitName} to outfit slot {listBox1.SelectedIndex + 1}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void tU27X360ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            jRPCToolStripMenuItem.Visible = true;
+            tMAPIToolStripMenuItem.Visible = false;
+            cCAPIToolStripMenuItem.Visible = false;
+            fileToolStripMenuItem.Text = "Connect to Xbox360";
+            toolStripMenuItem126.Checked = false;
+            toolStripMenuItem127.Checked = false;
+            tU27X360ToolStripMenuItem.Checked = true;
+        }
+
+        private void cCAPIToolStripMenuItem_Click(object sender, EventArgs e) {
+            ConnectAttach(SelectAPI.ControlConsole);
+
+        }
+
+        private void tMAPIToolStripMenuItem_Click(object sender, EventArgs e) {
+            ConnectAttach(SelectAPI.TargetManager);
+        }
+
+        private void jRPCToolStripMenuItem_Click(object sender, EventArgs e) {
+            ConnectX360();
         }
     }
 }
