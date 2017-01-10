@@ -303,35 +303,35 @@ namespace Outfits
             if(IsX360Version)
                 return X360.ReadInt32(address);
             else
-                return ReadInt32(address);
+                return PS3.Extension.ReadInt32(address);
         }
         private static UInt32 ReadUInt32(UInt32 address)
         {
             if (IsX360Version)
                 return X360.ReadUInt32(address);
             else
-                return ReadUInt32(address);
+                return PS3.Extension.ReadUInt32(address);
         }
         private static string ReadString(UInt32 address)
         {
             if (IsX360Version)
                 return X360.ReadString(address, 32);
             else
-                return ReadString(address);
+                return PS3.Extension.ReadString(address);
         }
         private static void WriteInt32(UInt32 address, Int32 value)
         {
             if (IsX360Version)
                  X360.WriteInt32(address, value);
             else
-                WriteInt32(address, value);
+                PS3.Extension.WriteInt32(address, value);
         }
         private static void WriteString(UInt32 address, string value)
         {
             if (IsX360Version)
                 X360.WriteString(address, value);
             else
-                WriteString(address, value);
+                PS3.Extension.WriteString(address, value);
         }
     }
 }
