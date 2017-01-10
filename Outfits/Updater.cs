@@ -19,7 +19,7 @@ namespace Outfits
 
     public class Updater
     {
-        private static string version = "1.3";
+        private static string version = "1.4";
 
         public static void NewUpdateCheck() {
             try {
