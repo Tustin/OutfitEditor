@@ -330,7 +330,6 @@ namespace Outfits
             jRPCToolStripMenuItem.Visible = true;
             tMAPIToolStripMenuItem.Visible = false;
             cCAPIToolStripMenuItem.Visible = false;
-            fileToolStripMenuItem.Text = "Connect to Xbox360";
             toolStripMenuItem126.Checked = false;
             toolStripMenuItem127.Checked = false;
             tU27X360ToolStripMenuItem.Checked = true;
